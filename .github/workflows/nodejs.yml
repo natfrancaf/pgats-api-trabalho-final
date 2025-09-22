@@ -23,7 +23,7 @@ jobs:
       run: npm install
 
     - name: Subir a API
-      run: node rest/server.js
+      run: npm start & 
 
     - name: Esperar a API Subir
       run: sleep 5

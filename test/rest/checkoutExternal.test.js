@@ -23,13 +23,13 @@ describe('Checkout external', () => {
             const resposta = await request('http://localhost:3000')
                 .post('/api/users/register')
                 .send({
-                    name: 'Natalia',
-                    email: 'natalia@email.com',
+                    name: 'Fabio',
+                    email: 'fabio@email.com',
                     password: '123456'
                 })
 
             expect(resposta.status).to.equal(201)
-           // expect(resposta.body).to.have.property('error', 'Email já cadastrado')
+       
         })
     })
 })

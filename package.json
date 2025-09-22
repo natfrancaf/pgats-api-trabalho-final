@@ -6,11 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-rest": "mocha test/rest/*.test.js --timeout 10000",
-    "start-rest": "node rest/server.js"
+    "start-rest": "node rest/server.js",
+    "start-graphql": "node graphql/server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/juliodelimas/pgats-2025-02-base.git"
+    "url": "git+https://github.com/natfrancaf/pgats-api-trabalho-final"
   },
   "keywords": [],
   "author": "",
