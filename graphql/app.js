@@ -4,6 +4,7 @@ const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 
 const app = express();
+app.use(express.json());
 const userService = require('../src/services/userService');
 
 const server = new ApolloServer({
@@ -22,7 +23,7 @@ const server = new ApolloServer({
 
 async function startApollo() {
   await server.start();
-  server.applyMiddleware({ app, path: '/graphql' });
+  server.applyMiddleware({ app, path: '/graphql'});
 }
 
 startApollo();

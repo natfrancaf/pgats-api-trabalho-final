@@ -1,6 +1,6 @@
 const app = require('./app');
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4002;
 app.listen(PORT, () => {
   console.log(`GraphQL server running on port ${PORT}`);
 });
