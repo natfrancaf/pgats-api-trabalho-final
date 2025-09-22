@@ -7,7 +7,7 @@ on:
     branches: [ "main", criando-testes]
 
 jobs:
-  build:
+ test:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,6 +21,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+
+    - name: Subir a API
+      run: npm start & 
+
+    - name: Esperar a API Subir
+      run: sleep 5
 
     - name: Run tests
       run: npm run test-rest
