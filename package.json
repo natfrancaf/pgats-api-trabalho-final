@@ -8,7 +8,7 @@
     "test-rest": "mocha test/rest/*.test.js --timeout 10000",
     "start-rest": "node rest/server.js",
     "start-graphql": "node graphql/server.js",
-    "start": "node server.js"
+    "start": "node rest/server.js"
   },
   "repository": {
     "type": "git",
