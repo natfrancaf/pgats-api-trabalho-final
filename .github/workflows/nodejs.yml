@@ -22,8 +22,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Subir a API
-      run: npm start & 
+    - name: Subir APIs REST e GraphQL
+      run: |
+        npm start &
+        node graphql/server.js & 
 
    
 
