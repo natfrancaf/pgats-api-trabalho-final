@@ -29,7 +29,7 @@ describe('Checkout external', () => {
                 })
 
             expect(resposta.status).to.equal(201)
-            //expect(resposta.body).to.have.property('error', 'Email já cadastrado')
+           // expect(resposta.body).to.have.property('error', 'Email já cadastrado')
         })
     })
 })
