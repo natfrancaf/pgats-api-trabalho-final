@@ -1,3 +1,216 @@
+# Trabalho Final Disciplina Automação de Testes de Performance 
+
+# Thresholds
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo usa o conceito de thresholds, validando as requisições http_req_duration e http_req_failed
+
+
+export const options = {
+  vus: 10,
+  duration: '10s',
+  thresholds: {
+    http_req_duration: ['p(90) <= 10'],
+    http_req_failed: ['rate < 0.01']
+  }
+
+# Checks
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo usa o conceito de check, validando a resposta 200 da api após fazer o checkout de um produto
+
+check(responseRealizarCheckout, {
+      'status deve ser igual a 200': (res => res.status === 200)
+    })
+
+
+# Helpers
+
+(Código armazenado no arquivo test\k6\helpers\login.js) 
+O código abaixo utiliza o conceito de Helper. Foi criado um helper de login que retorna o token que é utilizado no arquivo de testes
+
+import http from 'k6/http';
+
+export function fazerLogin(baseUrl){
+    return http.post(`${baseUrl}/api/users/login`, 
+            JSON.stringify({ 
+                email: 'teste@teste.com.br', 
+                password: '123456'
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+      
+        }
+
+Chamada da função do helper (arquivo \test\k6\trabalho-final-k6.js)
+export default function() {
+  let responseLogin = '';
+
+  group('Fazendo Login', function(){
+      responseLogin = fazerLogin(BASE_URL)
+  })
+
+# Trends
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo utiliza o conceito de Trends. 
+
+
+const postCheckoutDurationTrend = new Trend ('post_checkout_duration')
+
+
+ postCheckoutDurationTrend.add(responseRealizarCheckout.timings.duration)
+
+
+# Faker
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo utiliza o conceito de Faker para os dados de nome e número do cartão. 
+
+responseRealizarCheckout = http.post(
+        `${BASE_URL}/api/checkout`, 
+        JSON.stringify({ 
+            
+        
+            items: [
+              {
+                productId: 1,
+                quantity: 25
+              }
+            ],
+            freight: 0,
+            paymentMethod: "boleto",
+            cardData: {
+              number: card.Number,
+              name: faker.person.firstName(),
+              expiry: "12/2025",
+              cvv: "548"
+
+                
+      }
+
+
+# Variável de Ambiente
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo utiliza o conceito de variável de ambiente, definindo a url base dos testes
+
+Definição da variavel
+const BASE_URL = __ENV.BASE_URL || "http://localhost:3000";
+
+Utilizando a variavel
+  group('Fazendo Login', function(){
+      responseLogin = http.post(`${BASE_URL}/api/users/login`, 
+        JSON.stringify({ 
+
+
+# Stages
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo utiliza o conceito de stages
+
+export const options = {
+  vus: 10,
+  duration: '10s',
+  thresholds: {
+    http_req_duration: ['p(90) <= 10'],
+    http_req_failed: ['rate < 0.01']
+  },
+   stages: [
+      { duration: '3s', target: 10 },
+      { duration: '15s', target: 10 },
+      { duration: '5s', target: 0 },
+   
+  ],
+
+
+# Reaproveitamento de Resposta
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+Utilizando a resposta do login com o token para fazer o teste do checkout
+{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${responseLogin.json('token')}`
+            }
+        });
+
+
+# Uso de Token de Autenticação
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo utiliza o token de autetincação para recuperado no response do login para realizar um checkout de produto
+ {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${responseLogin.json('token')}`
+            }
+        });
+
+# Data-Driven Testing
+
+Os códigos abaixo utilizam o conceito de data-driven testing
+(Código armazenado no arquivo test\k6\data\login.test.data.json)
+Arquivo com os dados:
+
+[
+    {
+         "email": "bob@email.com",
+         "password": "123456"
+
+    },
+    {
+        "email": "alice@email.com",
+        "password": "123456"
+    }
+
+    
+
+]
+
+Utilização dos dados no teste (código armazenado no arquivo test\k6\login.test.js):
+export default function(){
+
+    const user = users[(__VU -1) % users.length];
+
+    console.log(user);
+
+    const email = user.email;
+    const password = user.password;
+
+    const res = http.post(`${BASE_URL}/api/users/login`, 
+            JSON.stringify({ 
+                email, password
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            check(res, {'status deve ser igual a 200': (r) => r.status === 200});
+
+            sleep(1);
+
+            
+        }
+      
+
+
+# Groups
+(Código armazenado no arquivo \test\k6\trabalho-final-k6.js)
+O código abaixo utiliza o conceito de groups 
+
+group('Fazendo Login', function(){
+      responseLogin = fazerLogin(BASE_URL)
+  })
+
+  
+  let responseRealizarCheckout= '';
+
+  group('Fazendo checkout de produtos', function(){
+      const card = faker.zen.creditCard(); 
+
+
+
+
+
+
 # API Checkout Rest e GraphQL
 
 Se você é aluno da Pós-Graduação em Automação de Testes de Software (Turma 2), faça um fork desse repositório e boa sorte em seu trabalho de conclusão da disciplina.
